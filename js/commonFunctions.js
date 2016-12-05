@@ -108,3 +108,33 @@ function rndi2(m, n) {
 	var a = Math.random() * (n - m) + m;
 	return Math.floor(a);
 }
+
+//给元素添加和删除方法，兼容各种浏览器
+
+var eventUtil={
+	//添加方法
+	/*
+	* element  要绑定的元素
+	* type  添加的方法名
+	* handler 方法函数
+	* */
+	addHandler:function (element,type,handler) {
+		if(element.addEventListener){
+		    element.addEventListener(type,handler,false)
+		}else if(element.attachEvent){
+			element.attachEvent('on'+type,handler)
+		}else{
+			element['on'+type]=handler;
+		}
+	},
+	//删除方法
+	removeHandler:function (element,type,handler) {
+		if(element.removeEventListener){
+			element.removeEventListener(type,handler,false)
+		}else if(element.detachEvent){
+			element.detachEvent('on'+type,handler)
+		}else{
+			element['on'+type]=handler;
+		}
+	}
+}
